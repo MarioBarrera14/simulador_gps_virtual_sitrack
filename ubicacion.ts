@@ -17,7 +17,6 @@ function generateReport() {
   const reportType = '2';
   const heading = Math.floor(Math.random() * 360);
   const speed = Math.round(Math.random() * 10000) / 100;
- // const timestamp = Math.floor(Date.now() / 1000).toString();
   const speedLabel = 'GPS';
   const gpsSatellites = Math.floor(Math.random() * 10);
   const text = 'Mario Barrera';
