@@ -1,9 +1,7 @@
-# simulador_gps_virtual
-**reportes formate json**
+# Simulador_gps_virtual
 
 
-
-Este código es un script de Node.js que genera un reporte de ubicación aleatoria y lo envía a través de una solicitud HTTP a un servidor remoto llamado SITRACK utilizando una autenticación basada en firma. A continuación se detalla el funcionamiento del código:
+Este microservicio/aplicacion es un script de Node.js que genera un reporte de ubicación aleatoria y lo envía a través de una solicitud HTTP a un servidor remoto llamado SITRACK utilizando una autenticación basada en firma. A continuación se detalla el funcionamiento del código:
 
 Se importan dos módulos nativos de Node.js: el módulo 'crypto' para generar la firma de autenticación y el módulo 'http' para enviar la solicitud HTTP.
 
@@ -22,4 +20,4 @@ Se define un temporizador que detiene el intervalo después de 300 segundos (5 m
 En resumen, este script genera informes de ubicación aleatoria y los envía al servidor SITRACK utilizando una autenticación basada en firma. El proceso se repite cada 60 segundos durante 5 minutos antes de detenerse.
 
 
-![This is an image](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9FAb8ocQqAwALAwLhLkYkelmt5imuOJRDaFKQXHj_Rwq3mpJ3yBwiFRi35InokkjRWTk&usqp=CAU)
+![This is an image](https://www.sitrack.com/portal/mobile/img/general/sitrack-logo.png)
