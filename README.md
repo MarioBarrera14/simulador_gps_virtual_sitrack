@@ -11,11 +11,13 @@ Este microservicio/aplicacion es un script de Node.js que genera un reporte de u
 
 4-Se define la función 'generateSignature' que toma un timestamp y utiliza el nombre de la aplicación, la clave secreta y el timestamp para generar una firma de autenticación utilizando la función de hash MD5. La firma se devuelve en formato base64.
 
-5-Se define la función 'sendAuthenticatedRequest' que toma un objeto de datos de informe y utiliza la firma de autenticación generada por la función 'generateSignature' para enviar una solicitud HTTP PUT a la URL del servidor SITRACK. La solicitud HTTP incluye el encabezado de autenticación y el cuerpo de la solicitud es el objeto de datos de informe en formato JSON. Si la solicitud falla, se intenta nuevamente en 10 segundos.
+5-Se define una función gpsDopString(dop: number) que toma un número de dispersión de precisión GPS (dop) y devuelve una cadena que describe la calidad de la señal GPS. 
 
-6-Se define una variable de intervalo que llama a la función 'generateReport' cada 60 segundos.
+6-Se define la función 'sendAuthenticatedRequest' que toma un objeto de datos de informe y utiliza la firma de autenticación generada por la función 'generateSignature' para enviar una solicitud HTTP PUT a la URL del servidor SITRACK. La solicitud HTTP incluye el encabezado de autenticación y el cuerpo de la solicitud es el objeto de datos de informe en formato JSON. Si la solicitud falla, se intenta nuevamente en 10 segundos.
 
-7-Se define un temporizador que detiene el intervalo después de 300 segundos (5 minutos) y muestra un mensaje de finalización del proceso.
+7-Se define una variable de intervalo que llama a la función 'generateReport' cada 60 segundos.
+
+8-Se define un temporizador que detiene el intervalo después de 300 segundos (5 minutos) y muestra un mensaje de finalización del proceso.
 
 En resumen, este script genera informes de ubicación aleatoria y los envía al servidor SITRACK utilizando una autenticación basada en firma. El proceso se repite cada 60 segundos durante 5 minutos antes de detenerse.
 

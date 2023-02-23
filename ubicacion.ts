@@ -5,7 +5,7 @@ const application = "ReportGeneratorTest";
 const secretKey = "ccd517a1-d39d-4cf6-af65-28d65e192149";
 const SITRACK_API_URL = 'test-externalrgw.ar.sitrack.com';
 
-const reportStatus = {};
+const reportStatus: Record<string, string> = {};
 
 function generateReport() {
   const now = new Date();
@@ -36,25 +36,46 @@ function generateReport() {
     text,
     textLabel,
   };
-//Luego, este objeto reportData se pasa como argumento a la función sendAuthenticatedRequest(), que se encarga de enviar una solicitud HTTP autenticada que contiene los datos de este informe.
+
+  console.log(gpsDopString(gpsDop));
+
   sendAuthenticatedRequest(reportData);
 }
 /*creamos la función (generateSignature) se encarga de generar una firma digital para una solicitud HTTP autenticada.
-
 La firma digital se genera a partir de tres elementos: el nombre de la aplicación, una clave secreta y una marca de tiempo. Estos elementos se concatenan en un solo string, y luego se calcula su hash MD5 utilizando la biblioteca crypto de Node.js.
-
 La función devuelve la firma digital en formato base64. */
 function generateSignature(timestamp: number): string {
   const data = `${application}${secretKey}${timestamp}`;
   const hash = crypto.createHash('md5').update(data).digest('base64');
   return hash;
 }
+
+function gpsDopString(dop: number): string {
+  let dispersion: string;
+
+  if (dop >= 0.0 && dop < 1.0) {
+    dispersion = "excelente";
+  } else if (dop >= 1.0 && dop < 2.0) {
+    dispersion = "buena";
+  } else if (dop >= 2.0 && dop < 10.0) {
+    dispersion = "escasa (no confiable)";
+  } else if (dop >= 10.0 && dop < 20.0) {
+    dispersion = "pobre";
+  } else if (dop >= 20.0) {
+    dispersion = "pésima";
+  } else {
+    throw new Error("El valor de DOP debe ser mayor o igual que cero.");
+  }
+
+  return `Dispersión de la precisión GPS: ${dispersion}`;
+}
+
 /*creamos una función sendAuthenticatedRequest lo cual envía una solicitud HTTP autenticada a través del protocolo PUT a una API de SITRACK para enviar un reporte de ubicación.
 la misma toma un objeto reportData que contiene datos del reporte, como la fecha, la ubicación, la velocidad, el tipo de reporte, etc.primero genera una clave única para el reporte combinando la latitud, longitud y la fecha. Luego, genera una marca de tiempo y firma digital utilizando la función generateSignature. */
 
 function sendAuthenticatedRequest(reportData: Record<string, unknown>): void {
-  const reportKey = `${reportData.latitude}_${reportData.longitude}_${reportData.reportDate}`;
-  try {////se construyen los encabezados de la solicitud, que incluyen la firma digital y la marca de tiempo. 
+  const reportKey = `${reportData.latitude}${reportData.longitude}${reportData.reportDate}`;
+  try {//se construyen los encabezados de la solicitud, que incluyen la firma digital y la marca de tiempo. 
     const timestamp = Math.floor(Date.now() / 1000);//obtienemos la marca de tiempo actual en segundos (desde el 1 de enero de 1970, 00:00:00 UTC) y la redondea hacia abajo al número entero más cercano utilizando Math.floor().
     const signature = generateSignature(timestamp);
     const headers = {
@@ -96,6 +117,7 @@ function sendAuthenticatedRequest(reportData: Record<string, unknown>): void {
 }
 
 /*Por ultimo se establece un intervalo para ejecutar la función generateReport() cada 60 segundos (60000 milisegundos), y guarda el identificador de intervalo devuelto en la variable intervalId. Luego, después de 5 minutos (300000 milisegundos), se llama a clearInterval() para detener la ejecución del intervalo y se muestra un mensaje de "Proceso finalizado" en la consola/terminal. */
+
 const intervalId = setInterval(generateReport, 60000);
 
 setTimeout(() => {
