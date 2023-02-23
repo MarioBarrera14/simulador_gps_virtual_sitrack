@@ -50,6 +50,7 @@ function generateSignature(timestamp: number): string {
   return hash;
 }
 
+/*Creamos una función llamada gpsDopString que toma un número dop como argumento y devuelve una cadena que indica la calidad de la precisión de la señal GPS, según el valor del argumento dop. */
 function gpsDopString(dop: number): string {
   let dispersion: string;
 
