@@ -70,7 +70,7 @@ function sendAuthenticatedRequest(reportData: Record<string, unknown>): void {
     const request = http.request(options, (response) => {
       console.log(`Response status code: ${response.statusCode}`);
       reportStatus[reportKey] = 'sent';//Si la solicitud es exitosa, la función guarda el estado del reporte en la variable reportStatus.
-      console.log(`El reporte ${reportKey} ya ha sido enviado`);
+      console.log(`El reporte ${reportKey} ya ha sido enviado a SITRACK`);
     });//se envía el cuerpo de la solicitud que contiene los datos del reporte en formato JSON.
     const body = JSON.stringify(reportData);
     request.write(body);
